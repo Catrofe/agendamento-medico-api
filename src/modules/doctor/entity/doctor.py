@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Any
 
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
@@ -27,9 +27,7 @@ class Doctor(EntityTable):
         self.email = email
         self.phone = phone
 
-    def update(
-        self, **kwargs: Optional[dict[Literal["name", "crm", "email", "phone"], str]]
-    ) -> None:
+    def update(self, **kwargs: Any) -> None:
         allowed_fields = {"name", "crm", "email", "phone"}
         for key, value in kwargs.items():
             if key in allowed_fields:
