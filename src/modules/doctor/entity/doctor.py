@@ -1,5 +1,3 @@
-from typing import Any
-
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -10,14 +8,20 @@ class Doctor(EntityTable):
     __tablename__ = "tb_doctor"
 
     name: Mapped[str] = mapped_column(
-        __type_pos=String(155), nullable=False, unique=True
+        __type_pos=String(155),
+        nullable=False,
+        unique=True,
     )
     crm: Mapped[str] = mapped_column(__type_pos=String(10), nullable=False, unique=True)
     email: Mapped[str] = mapped_column(
-        __type_pos=String(155), nullable=False, unique=True
+        __type_pos=String(155),
+        nullable=False,
+        unique=True,
     )
     phone: Mapped[str] = mapped_column(
-        __type_pos=String(15), nullable=False, unique=True
+        __type_pos=String(15),
+        nullable=False,
+        unique=True,
     )
 
     def __init__(self, name: str, crm: str, email: str, phone: str) -> None:
@@ -27,7 +31,7 @@ class Doctor(EntityTable):
         self.email = email
         self.phone = phone
 
-    def update(self, **kwargs: Any) -> None:
+    def update(self, **kwargs: dict) -> None:
         allowed_fields = {"name", "crm", "email", "phone"}
         for key, value in kwargs.items():
             if key in allowed_fields:

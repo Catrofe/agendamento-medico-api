@@ -1,5 +1,3 @@
-from typing import Optional
-
 from sqlalchemy.sql.expression import delete, select
 
 from src.modules.base.repository import ContextRepository
@@ -17,8 +15,8 @@ class DoctorRepository:
                 select(Doctor).where(
                     (Doctor.crm == doctor.crm)
                     | (Doctor.email == doctor.email)
-                    | (Doctor.phone == doctor.phone)
-                )
+                    | (Doctor.phone == doctor.phone),
+                ),
             )
         return bool(query.first())
 
@@ -29,7 +27,7 @@ class DoctorRepository:
             await session.refresh(doctor)
         return doctor
 
-    async def get_doctor(self, doctor_id: int) -> Optional[Doctor]:
+    async def get_doctor(self, doctor_id: int) -> Doctor | None:
         async with self.__connection() as session:
             query = await session.execute(select(Doctor).where(Doctor.id == doctor_id))
         return query.scalar()

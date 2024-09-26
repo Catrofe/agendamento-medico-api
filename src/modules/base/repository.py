@@ -49,5 +49,6 @@ class ContextRepository:
     def session_maker() -> async_sessionmaker[AsyncSession]:
         """Get the session maker."""
         return async_sessionmaker(
-            ContextRepository.get_engine(), expire_on_commit=False
+            ContextRepository.get_engine(),
+            expire_on_commit=False,
         )

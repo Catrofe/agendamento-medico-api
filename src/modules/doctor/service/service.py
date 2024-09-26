@@ -13,7 +13,7 @@ class DoctorService:
         if await self.__repository.get_doctor_already_exists(doctor):
             raise BadRequestException("Doctor already exists.")
         new_doctor = await self.__repository.create_doctor(
-            Doctor(**doctor.model_dump())
+            Doctor(**doctor.model_dump()),
         )
         return DoctorModel(**new_doctor.__dict__)
 
@@ -38,4 +38,3 @@ class DoctorService:
     async def delete_doctor(self, doctor_id: int) -> None:
         await self.get_doctor(doctor_id)
         await self.__repository.delete_doctor(doctor_id)
-        return None
