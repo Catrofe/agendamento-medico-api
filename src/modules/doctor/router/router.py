@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from fastapi import APIRouter
 
 from src.modules.doctor.models.models import CreateDoctor, DoctorModel, UpdateDoctor
@@ -12,8 +14,6 @@ service = DoctorService()
 async def create_doctor(doctor: CreateDoctor) -> DoctorModel:
     return await service.create_doctor(doctor)
 
-
-from http import HTTPStatus
 
 @router.get("/doctor/{doctor_id}", status_code=HTTPStatus.OK)
 async def get_doctor(doctor_id: int) -> DoctorModel:

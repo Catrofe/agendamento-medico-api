@@ -8,8 +8,9 @@ class DoctorSchedule(EntityTable):
     __tablename__ = "tb_doctor_schedule"
 
     doctor_id: Mapped[int] = Column(
-        ForeignKey("tb_doctor.id"), nullable=False
-    )  # type:ignore
+        ForeignKey("tb_doctor.id"),
+        nullable=False,
+    )
     day_of_week: Mapped[int] = mapped_column(nullable=False)
     start_time: Mapped[Time] = mapped_column(__type_pos=Time, nullable=False)
     end_time: Mapped[Time] = mapped_column(__type_pos=Time, nullable=False)

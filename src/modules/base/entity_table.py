@@ -2,14 +2,18 @@ from datetime import datetime
 
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+from src.main.settings import settings
+
 
 def current_time() -> datetime:
-    return datetime.now()
+    return datetime.now(tz=settings.timezone)
 
 
 class EntityTable(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, sort_order=-1)
     created_at: Mapped[datetime] = mapped_column(default=current_time)
     updated_at: Mapped[datetime] = mapped_column(
-        default=None, nullable=True, onupdate=current_time
+        default=None,
+        nullable=True,
+        onupdate=current_time,
     )
