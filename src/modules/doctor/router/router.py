@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from src.modules.doctor.models.models import CreateDoctor, DoctorModel
+from src.modules.doctor.models.models import CreateDoctor, DoctorModel, UpdateDoctor
 from src.modules.doctor.service.service import DoctorService
 
 router = APIRouter()
@@ -13,16 +13,16 @@ async def create_doctor(doctor: CreateDoctor) -> DoctorModel:
     return await service.create_doctor(doctor)
 
 
-@router.get("/doctor")
-async def get_doctor() -> dict[str, str]:
-    return {"message": "Doctor retrieved successfully."}
+@router.get("/doctor/{doctor_id}", status_code=200)
+async def get_doctor(doctor_id: int) -> DoctorModel:
+    return await service.get_doctor_model(doctor_id)
 
 
-@router.put("/doctor")
-async def update_doctor() -> dict[str, str]:
-    return {"message": "Doctor updated successfully."}
+@router.put("/doctor", status_code=200)
+async def update_doctor(doctor: UpdateDoctor) -> DoctorModel:
+    return await service.update_doctor(doctor)
 
 
-@router.delete("/doctor")
-async def delete_doctor() -> dict[str, str]:
-    return {"message": "Doctor deleted successfully."}
+@router.delete("/doctor/{doctor_id}", status_code=204)
+async def delete_doctor(doctor_id: int) -> None:
+    await service.delete_doctor(doctor_id)

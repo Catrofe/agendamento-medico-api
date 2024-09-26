@@ -15,7 +15,7 @@ class DoctorSchedule(EntityTable):
     end_time: Mapped[Time] = mapped_column(__type_pos=Time, nullable=False)
 
     def __init__(self, name: str, crm: str, email: str, phone: str) -> None:
-        super().__init__()  # type:ignore
+        super().__init__()
         self.name = name
         self.crm = crm
         self.email = email
