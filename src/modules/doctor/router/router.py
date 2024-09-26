@@ -13,7 +13,9 @@ async def create_doctor(doctor: CreateDoctor) -> DoctorModel:
     return await service.create_doctor(doctor)
 
 
-@router.get("/doctor/{doctor_id}", status_code=200)
+from http import HTTPStatus
+
+@router.get("/doctor/{doctor_id}", status_code=HTTPStatus.OK)
 async def get_doctor(doctor_id: int) -> DoctorModel:
     return await service.get_doctor_model(doctor_id)
 
