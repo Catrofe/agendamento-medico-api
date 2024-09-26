@@ -11,7 +11,6 @@ sqlalchemy = "^2.0.35"
 fastapi = "^0.115.0"
 uvicorn = "^0.30.6"
 asyncpg = "^0.29.0"
-sqlalchemy2-stubs = "^0.0.2a38"
 gunicorn = "^23.0.0"
 pydantic-settings = "^2.5.2"
 

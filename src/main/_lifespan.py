@@ -3,16 +3,16 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.modules.base.repository import BaseRepository
+from src.modules.base.repository import ContextRepository
 
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncGenerator[None, None]:
     """Application lifespan events."""
     # Before startup
-    await BaseRepository.create_all()
+    await ContextRepository.create_all()
 
     yield
 
     # Before shutdown
-    await BaseRepository.close_engine()
+    await ContextRepository.close_engine()
