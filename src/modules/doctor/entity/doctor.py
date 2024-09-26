@@ -1,3 +1,5 @@
+from typing import Any
+
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -19,8 +21,14 @@ class Doctor(EntityTable):
     )
 
     def __init__(self, name: str, crm: str, email: str, phone: str) -> None:
-        super().__init__()  # type:ignore
+        super().__init__()
         self.name = name
         self.crm = crm
         self.email = email
         self.phone = phone
+
+    def update(self, **kwargs: Any) -> None:
+        allowed_fields = {"name", "crm", "email", "phone"}
+        for key, value in kwargs.items():
+            if key in allowed_fields:
+                setattr(self, key, value)
