@@ -5,7 +5,6 @@ from src.modules.doctor.repository.repository import DoctorRepository
 
 
 class DoctorService:
-
     def __init__(self) -> None:
         self.__repository = DoctorRepository()
 

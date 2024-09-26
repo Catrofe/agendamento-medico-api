@@ -6,7 +6,6 @@ from src.modules.doctor.models.models import CreateDoctor
 
 
 class DoctorRepository:
-
     def __init__(self) -> None:
         self.__connection = ContextRepository.session_maker()
 
