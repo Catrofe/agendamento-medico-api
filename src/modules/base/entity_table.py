@@ -1,11 +1,12 @@
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
+from src.main.settings import settings
+
 
 def current_time() -> datetime:
-    return datetime.now(tz=ZoneInfo("America/Sao_Paulo"))
+    return datetime.now(tz=settings.timezone)
 
 
 class EntityTable(DeclarativeBase):

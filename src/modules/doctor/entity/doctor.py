@@ -1,7 +1,16 @@
+from typing import TypedDict
+
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.modules.base.entity_table import EntityTable
+
+
+class DoctorUpdateParams(TypedDict, total=False):
+    name: str
+    crm: str
+    email: str
+    phone: str
 
 
 class Doctor(EntityTable):
@@ -31,7 +40,7 @@ class Doctor(EntityTable):
         self.email = email
         self.phone = phone
 
-    def update(self, **kwargs: dict) -> None:
+    def update(self, **kwargs: DoctorUpdateParams) -> None:
         allowed_fields = {"name", "crm", "email", "phone"}
         for key, value in kwargs.items():
             if key in allowed_fields:
