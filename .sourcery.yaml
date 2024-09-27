@@ -1,0 +1,3 @@
+coding_assistant:
+  review:
+    default_branch: main
