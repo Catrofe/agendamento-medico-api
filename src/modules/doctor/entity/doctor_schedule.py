@@ -3,7 +3,6 @@ from datetime import time
 from sqlalchemy import (
     Column,
     ForeignKey,
-    Time,
 )
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -19,8 +18,8 @@ class DoctorSchedule(EntityTable):
         nullable=False,
     )
     day_of_week: Mapped[int] = mapped_column(nullable=False)
-    start_time: Mapped[time] = mapped_column(__type_pos=Time, nullable=False)
-    end_time: Mapped[time] = mapped_column(__type_pos=Time, nullable=False)
+    start_time: Mapped[time] = mapped_column(nullable=False)
+    end_time: Mapped[time] = mapped_column(nullable=False)
 
     def __init__(
         self,

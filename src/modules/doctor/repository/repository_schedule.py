@@ -24,20 +24,12 @@ class DoctorScheduleRepository:
                 .where(DoctorSchedule.doctor_id == doctor_schedule.doctor_id)
                 .where(DoctorSchedule.day_of_week == doctor_schedule.day_of_week)
                 .where(
-                    DoctorSchedule.start_time.between(
-                        doctor_schedule.start_time,
-                        doctor_schedule.end_time,
-                    ),
-                )
-                .where(
-                    DoctorSchedule.end_time.between(
-                        doctor_schedule.start_time,
-                        doctor_schedule.end_time,
-                    ),
+                    (DoctorSchedule.start_time < doctor_schedule.end_time)
+                    & (DoctorSchedule.end_time > doctor_schedule.start_time),
                 ),
             )
-
-        return bool(query.scalar())
+        existing_schedules = query.scalars().all()
+        return bool(existing_schedules)
 
     async def get_schedule_by_id(self, schedule_id: int) -> DoctorSchedule:
         async with self.__connection() as session:
