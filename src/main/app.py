@@ -4,6 +4,8 @@ from fastapi import FastAPI
 
 from src.exceptions.BaseException import BaseExceptionAppointment
 from src.main._lifespan import lifespan
+from src.modules.doctor.router.router import router as doctor_router
+from src.modules.doctor.router.router_schedule import router as doctor_schedule_router
 
 
 def create_app() -> FastAPI:
@@ -25,6 +27,5 @@ def create_app() -> FastAPI:
 
 
 def create_routers(app: FastAPI) -> None:
-    from src.modules.doctor.router.router import router as doctor_router
-
-    app.include_router(doctor_router)
+    app.include_router(doctor_router, tags=["Doctor"])
+    app.include_router(doctor_schedule_router, tags=["Doctor Schedule"])
