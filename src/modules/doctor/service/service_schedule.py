@@ -21,3 +21,18 @@ class DoctorScheduleService:
             raise BadRequestException("Schedule already exists")
         schedule = await self.__repository.create_schedule(schedule)
         return ScheduleCreate(**schedule.__dict__)
+
+    async def get_schedule_by_id(self, schedule_id: int) -> ScheduleCreate:
+        schedule = await self.__repository.get_schedule_by_id(schedule_id)
+        return ScheduleCreate(**schedule.__dict__)
+
+    async def get_schedule_by_doctor_id(self, doctor_id: int) -> list[ScheduleCreate]:
+        schedule = await self.__repository.get_schedule_by_doctor_id(doctor_id)
+        return [ScheduleCreate(**s.__dict__) for s in schedule]
+
+    async def delete_schedule_by_id(self, schedule_id: int) -> None:
+        schedule = await self.__repository.get_schedule_by_id(schedule_id)
+        if not schedule:
+            logging.error("Schedule not found")
+            raise BadRequestException("Schedule not found")
+        await self.__repository.delete_schedule(schedule)

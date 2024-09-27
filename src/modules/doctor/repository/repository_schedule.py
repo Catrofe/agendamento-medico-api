@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from sqlalchemy.sql.expression import select
 
 from src.modules.base.repository import ContextRepository
@@ -36,3 +38,25 @@ class DoctorScheduleRepository:
             )
 
         return bool(query.scalar())
+
+    async def get_schedule_by_id(self, schedule_id: int) -> DoctorSchedule:
+        async with self.__connection() as session:
+            query = await session.execute(
+                select(DoctorSchedule).where(DoctorSchedule.id == schedule_id),
+            )
+        return query.scalar()
+
+    async def get_schedule_by_doctor_id(
+        self,
+        doctor_id: int,
+    ) -> Sequence[DoctorSchedule]:
+        async with self.__connection() as session:
+            query = await session.execute(
+                select(DoctorSchedule).where(DoctorSchedule.doctor_id == doctor_id),
+            )
+        return query.scalars().all()
+
+    async def delete_schedule(self, schedule: int) -> None:
+        async with self.__connection() as session:
+            await session.delete(schedule)
+            await session.commit()
