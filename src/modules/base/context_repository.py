@@ -6,8 +6,6 @@ from src.modules.base.entity_table import EntityTable
 
 
 class ContextRepository:
-    """Base repository for all repositories."""
-
     _engine: AsyncEngine | None = None
 
     @staticmethod

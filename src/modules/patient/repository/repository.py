@@ -1,6 +1,6 @@
 from sqlalchemy import select
 
-from src.modules.base.repository import ContextRepository
+from src.modules.base.context_repository import ContextRepository
 from src.modules.patient.entity.patient import Patient
 
 

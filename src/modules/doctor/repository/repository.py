@@ -1,6 +1,6 @@
 from sqlalchemy.sql.expression import delete, select
 
-from src.modules.base.repository import ContextRepository
+from src.modules.base.context_repository import ContextRepository
 from src.modules.doctor.entity.doctor import Doctor
 from src.modules.doctor.models.models import CreateDoctor
 

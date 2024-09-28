@@ -2,7 +2,7 @@ from collections.abc import Sequence
 
 from sqlalchemy.sql.expression import select
 
-from src.modules.base.repository import ContextRepository
+from src.modules.base.context_repository import ContextRepository
 from src.modules.doctor.entity.doctor_schedule import DoctorSchedule
 
 

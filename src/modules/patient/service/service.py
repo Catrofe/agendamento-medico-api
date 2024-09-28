@@ -35,7 +35,9 @@ class PatientService:
         if not patient:
             raise BadRequestException("Patient not found")
 
-        patient.update(**patient_model.model_dump())
+        patient.update(
+            **patient_model.model_dump(exclude_defaults=True, exclude_unset=True),
+        )
         patient = await self.__repository.save_patient(patient)
         return PatientModel(**patient.__dict__)
 
