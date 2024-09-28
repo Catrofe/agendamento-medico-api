@@ -31,7 +31,9 @@ class DoctorService:
 
     async def update_doctor(self, doctor_update: UpdateDoctor) -> DoctorModel:
         doctor = await self.get_doctor(doctor_update.id)
-        doctor.update(**doctor_update.model_dump(exclude_defaults=True))
+        doctor.update(
+            **doctor_update.model_dump(exclude_defaults=True, exclude_unset=True),
+        )
         doctor = await self.__repository.save_entity(doctor)
         return DoctorModel(**doctor.__dict__)
 
