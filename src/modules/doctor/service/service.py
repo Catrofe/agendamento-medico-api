@@ -12,7 +12,7 @@ class DoctorService:
     async def create_doctor(self, doctor: CreateDoctor) -> DoctorModel:
         if await self.__repository.get_doctor_already_exists(doctor):
             raise BadRequestException("Doctor already exists.")
-        new_doctor = await self.__repository.create_doctor(
+        new_doctor = await self.__repository.save_entity(
             Doctor(**doctor.model_dump()),
         )
         return DoctorModel(**new_doctor.__dict__)
@@ -32,9 +32,11 @@ class DoctorService:
     async def update_doctor(self, doctor_update: UpdateDoctor) -> DoctorModel:
         doctor = await self.get_doctor(doctor_update.id)
         doctor.update(**doctor_update.model_dump(exclude_defaults=True))
-        doctor = await self.__repository.update_doctor(doctor)
+        doctor = await self.__repository.save_entity(doctor)
         return DoctorModel(**doctor.__dict__)
 
     async def delete_doctor(self, doctor_id: int) -> None:
-        await self.get_doctor(doctor_id)
-        await self.__repository.delete_doctor(doctor_id)
+        doctor = await self.get_doctor(doctor_id)
+        if not doctor:
+            raise NotFoundException("Doctor not found.")
+        await self.__repository.delete_entity(doctor)
