@@ -12,7 +12,7 @@ class PatientModel(PatientCreate):
     id: int
 
 
-class PatientUpdate(PatientModel):
+class PatientUpdate(BaseModel):
     id: int
     name: str | None = Field(max_length=155)
     cpf: str | None = Field(max_length=11)

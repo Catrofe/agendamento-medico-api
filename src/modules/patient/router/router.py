@@ -9,7 +9,7 @@ service = PatientService()
 
 
 @router.post("/patient")
-async def registry_paccient(patient: PatientCreate) -> PatientModel:
+async def registry_patient(patient: PatientCreate) -> PatientModel:
     return await service.create_patient(patient)
 
 

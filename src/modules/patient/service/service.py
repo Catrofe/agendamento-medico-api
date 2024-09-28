@@ -10,7 +10,7 @@ class PatientService:
 
     async def create_patient(self, new_patient: PatientCreate) -> PatientModel:
         if self.__repository.patient_exists(new_patient):
-            raise BadRequestException("Pattient already exists")
+            raise BadRequestException("Patient already exists")
         patient = Patient(**new_patient.model_dump())
         patient = await self.__repository.save_patient(patient)
         return PatientModel(**patient.__dict__)
