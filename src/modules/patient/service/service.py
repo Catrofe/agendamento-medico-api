@@ -9,14 +9,14 @@ class PatientService:
         self.__repository = PatientRepository()
 
     async def create_patient(self, new_patient: PatientCreate) -> PatientModel:
-        if self.__repository.patient_exists(
+        if await self.__repository.patient_exists(
             new_patient.cpf,
             new_patient.email,
             new_patient.phone,
         ):
             raise BadRequestException("Patient already exists")
         patient = Patient(**new_patient.model_dump())
-        patient = await self.__repository.save_patient(patient)
+        patient = await self.__repository.save_entity(patient)
         return PatientModel(**patient.__dict__)
 
     async def get_patient_by_id(self, patient_id: int) -> PatientModel:
@@ -31,14 +31,14 @@ class PatientService:
         patient_id: int,
         patient_model: PatientUpdate,
     ) -> PatientModel:
-        patient: Patient = await self.__repository.get_patient_by_id(patient_id)
+        patient = await self.__repository.get_patient_by_id(patient_id)
         if not patient:
             raise BadRequestException("Patient not found")
 
         patient.update(
             **patient_model.model_dump(exclude_defaults=True, exclude_unset=True),
         )
-        patient = await self.__repository.save_patient(patient)
+        patient = await self.__repository.save_entity(patient)
         return PatientModel(**patient.__dict__)
 
     async def delete_patient(self, patient_id: int) -> None:
@@ -46,4 +46,4 @@ class PatientService:
         if not patient:
             raise BadRequestException("Patient not found")
 
-        await self.__repository.delete_patient(patient)
+        await self.__repository.delete_entity(patient)
