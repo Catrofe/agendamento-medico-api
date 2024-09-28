@@ -9,7 +9,11 @@ class PatientService:
         self.__repository = PatientRepository()
 
     async def create_patient(self, new_patient: PatientCreate) -> PatientModel:
-        if self.__repository.patient_exists(new_patient):
+        if self.__repository.patient_exists(
+            new_patient.cpf,
+            new_patient.email,
+            new_patient.phone,
+        ):
             raise BadRequestException("Patient already exists")
         patient = Patient(**new_patient.model_dump())
         patient = await self.__repository.save_patient(patient)
