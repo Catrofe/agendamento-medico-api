@@ -4,8 +4,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 from src.modules.base.entity_table import EntityTable
 
 
-class Paccient(EntityTable):
-    __tablename__ = "tb_paccient"
+class Patient(EntityTable):
+    __tablename__ = "tb_patient"
 
     name: Mapped[str] = mapped_column(__type_pos=String(155), nullable=False)
     cpf: Mapped[str] = mapped_column(__type_pos=String(11), nullable=False, unique=True)
