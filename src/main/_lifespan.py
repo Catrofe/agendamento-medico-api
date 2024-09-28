@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from src.modules.base.repository import ContextRepository
+from src.modules.base.context_repository import ContextRepository
 
 
 @asynccontextmanager

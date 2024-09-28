@@ -23,7 +23,7 @@ class DoctorScheduleService:
             logging.error("Schedule already exists")
             raise BadRequestException("Schedule already exists")
 
-        schedule = await self.__repository.create_schedule(schedule)
+        schedule = await self.__repository.save_entity(schedule)
         return ScheduleModel(**schedule.__dict__)
 
     async def get_schedule_by_id(self, schedule_id: int) -> ScheduleModel:
@@ -39,4 +39,4 @@ class DoctorScheduleService:
         if not schedule:
             logging.error("Schedule not found")
             raise BadRequestException("Schedule not found")
-        await self.__repository.delete_schedule(schedule)
+        await self.__repository.delete_entity(schedule)

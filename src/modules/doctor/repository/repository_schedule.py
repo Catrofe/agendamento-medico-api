@@ -2,23 +2,16 @@ from collections.abc import Sequence
 
 from sqlalchemy.sql.expression import select
 
-from src.modules.base.repository import ContextRepository
+from src.modules.base.base_repository import BaseRepository
 from src.modules.doctor.entity.doctor_schedule import DoctorSchedule
 
 
-class DoctorScheduleRepository:
+class DoctorScheduleRepository(BaseRepository):
     def __init__(self) -> None:
-        self.__connection = ContextRepository.session_maker()
-
-    async def create_schedule(self, schedule: DoctorSchedule) -> DoctorSchedule:
-        async with self.__connection() as session:
-            session.add(schedule)
-            await session.commit()
-            await session.refresh(schedule)
-        return schedule
+        super().__init__()
 
     async def verify_schedule(self, doctor_schedule: DoctorSchedule) -> bool:
-        async with self.__connection() as session:
+        async with self._connection() as session:
             query = await session.execute(
                 select(DoctorSchedule)
                 .where(DoctorSchedule.doctor_id == doctor_schedule.doctor_id)
@@ -32,7 +25,7 @@ class DoctorScheduleRepository:
         return bool(existing_schedules)
 
     async def get_schedule_by_id(self, schedule_id: int) -> DoctorSchedule:
-        async with self.__connection() as session:
+        async with self._connection() as session:
             query = await session.execute(
                 select(DoctorSchedule).where(DoctorSchedule.id == schedule_id),
             )
@@ -42,13 +35,8 @@ class DoctorScheduleRepository:
         self,
         doctor_id: int,
     ) -> Sequence[DoctorSchedule]:
-        async with self.__connection() as session:
+        async with self._connection() as session:
             query = await session.execute(
                 select(DoctorSchedule).where(DoctorSchedule.doctor_id == doctor_id),
             )
         return query.scalars().all()
-
-    async def delete_schedule(self, schedule: int) -> None:
-        async with self.__connection() as session:
-            await session.delete(schedule)
-            await session.commit()
