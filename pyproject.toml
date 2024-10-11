@@ -6,13 +6,13 @@ authors = ["Christian Lopes <christian.lima@ntendencia.com.br>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.12"
 sqlalchemy = "^2.0.35"
 fastapi = "^0.115.0"
-uvicorn = "^0.30.6"
 asyncpg = "^0.29.0"
 gunicorn = "^23.0.0"
 pydantic-settings = "^2.5.2"
+uvicorn = "^0.31.1"
 
 
 [tool.poetry.group.dev.dependencies]
