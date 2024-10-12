@@ -9,11 +9,11 @@ packages = [{include = "src"}]
 [tool.poetry.dependencies]
 python = "^3.12"
 sqlalchemy = "^2.0.35"
-fastapi = "^0.115.0"
 gunicorn = "^23.0.0"
 pydantic-settings = "^2.5.2"
 uvicorn = "^0.31.1"
 psycopg = {extras = ["binary"], version = "^3.2.3"}
+fastapi = "^0.115.2"
 
 
 [tool.poetry.group.dev.dependencies]
