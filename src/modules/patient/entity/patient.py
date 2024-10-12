@@ -7,6 +7,7 @@ from src.modules.base.entity_table import EntityTable
 class Patient(EntityTable):
     __tablename__ = "tb_patient"
 
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, sort_order=-1)
     name: Mapped[str] = mapped_column(__type_pos=String(155), nullable=False)
     cpf: Mapped[str] = mapped_column(__type_pos=String(11), nullable=False, unique=True)
     email: Mapped[str] = mapped_column(
