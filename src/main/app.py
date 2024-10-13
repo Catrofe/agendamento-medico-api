@@ -7,6 +7,7 @@ from src.main._lifespan import lifespan
 from src.modules.doctor.router.router import router as doctor_router
 from src.modules.doctor.router.router_schedule import router as doctor_schedule_router
 from src.modules.patient.router.router import router as patient_router
+from src.modules.schedule.router.router import router as schedule_router
 
 
 def create_app() -> FastAPI:
@@ -20,6 +21,7 @@ def create_app() -> FastAPI:
         redoc_url=None,
         lifespan=lifespan,
         exception_handlers={BaseExceptionAppointment: BaseExceptionAppointment.handler},
+        swagger_ui_parameters={"displayRequestDuration": True},
     )
 
     logging.info("Creating routes...")
@@ -31,3 +33,4 @@ def create_routers(app: FastAPI) -> None:
     app.include_router(doctor_router, tags=["Doctor"])
     app.include_router(doctor_schedule_router, tags=["Doctor Schedule"])
     app.include_router(patient_router, tags=["Patient"])
+    app.include_router(schedule_router, tags=["Schedule"])

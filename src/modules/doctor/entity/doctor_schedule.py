@@ -13,6 +13,7 @@ from src.modules.base.entity_table import EntityTable
 class DoctorSchedule(EntityTable):
     __tablename__ = "tb_doctor_schedule"
 
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, sort_order=-1)
     doctor_id: Mapped[int] = Column(
         ForeignKey("tb_doctor.id"),
         nullable=False,

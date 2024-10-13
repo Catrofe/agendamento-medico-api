@@ -8,21 +8,21 @@ router = APIRouter()
 service = DoctorScheduleService()
 
 
-@router.post("/schedule", status_code=201)
+@router.post("/doctor/schedule", status_code=201)
 async def create_doctor(schedule: ScheduleCreate) -> ScheduleModel:
     return await service.create_schedule(schedule)
 
 
-@router.get("/schedule/{schedule_id}", status_code=200)
+@router.get("/doctor/schedule/{schedule_id}", status_code=200)
 async def get_schedule_by_id(schedule_id: int) -> ScheduleModel:
     return await service.get_schedule_by_id(schedule_id)
 
 
-@router.get("/schedule/{doctor_id}", status_code=200)
+@router.get("/doctor/schedule/{doctor_id}", status_code=200)
 async def get_schedule_by_doctor_id(doctor_id: int) -> list[ScheduleModel]:
     return await service.get_schedule_by_doctor_id(doctor_id)
 
 
-@router.delete("/schedule/{schedule_id}", status_code=204)
+@router.delete("/doctor/schedule/{schedule_id}", status_code=204)
 async def delete_schedule_by_id(schedule_id: int) -> None:
     return await service.delete_schedule_by_id(schedule_id)

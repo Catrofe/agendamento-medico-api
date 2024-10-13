@@ -11,7 +11,6 @@ def current_time() -> datetime:
 
 
 class EntityTable(DeclarativeBase):
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, sort_order=-1)
     created_at: Mapped[datetime] = mapped_column(
         __type_pos=DateTime(timezone=True),
         default=current_time,
