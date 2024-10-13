@@ -85,3 +85,40 @@ class ScheduleService:
             time(hour=schedule_model.start_time),
         ):
             raise BadRequestException("Doctor not available at this time")
+
+    async def get_schedule_patient(
+        self,
+        patient_id: int,
+        past_appointments: bool,
+    ) -> list[ScheduleModel]:
+        if not await self.__repository.patient_exists(patient_id):
+            raise BadRequestException("Patient not found")
+
+        return [
+            ScheduleModel(**schedule.__dict__)
+            for schedule in await self.__repository.get_schedule_patient(
+                patient_id,
+                past_appointments,
+                datetime.now(),
+            )
+        ]
+
+    async def get_schedule_reserved(
+        self,
+        doctor_id: int,
+        days: int,
+        past_appointments: bool,
+    ) -> list[ScheduleModel]:
+        if not await self.__repository.doctor_exists(doctor_id):
+            raise BadRequestException("Doctor not found")
+
+        actual_date = datetime.now()
+        limit_date = actual_date + timedelta(days=days)
+
+        future_schedules = await self.__repository.get_schedule_reserved(
+            doctor_id,
+            actual_date,
+            limit_date,
+            past_appointments,
+        )
+        return [ScheduleModel(**schedule.__dict__) for schedule in future_schedules]

@@ -80,3 +80,33 @@ class ScheduleRepository(BaseRepository):
                 ),
             )
         return query.scalars().first() is not None
+
+    async def get_schedule_patient(
+        self,
+        patient_id: int,
+        past_appointments: bool,
+        actual_date: datetime,
+    ) -> Sequence[Schedule]:
+        async with self._connection() as session:
+            query = select(Schedule).where(Schedule.patient_id == patient_id)
+            if not past_appointments:
+                query = query.where(Schedule.appointment >= actual_date)
+            query = await session.execute(query)
+
+        return query.scalars().all()
+
+    async def get_schedule_reserved(
+        self,
+        doctor_id: int,
+        actual_date: datetime,
+        limit_date: datetime,
+        past_appointments: bool,
+    ) -> Sequence[Schedule]:
+        async with self._connection() as session:
+            query = select(Schedule).where(Schedule.doctor_id == doctor_id)
+            if not past_appointments:
+                query = query.where(Schedule.appointment >= actual_date)
+            query = query.where(Schedule.appointment <= limit_date)
+            query = await session.execute(query)
+
+        return query.scalars().all()
