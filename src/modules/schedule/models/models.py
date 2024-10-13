@@ -1,8 +1,7 @@
+from datetime import date, datetime, time
 from enum import Enum
-from typing import Optional, List
 
 from pydantic import BaseModel
-from datetime import time, datetime, date
 
 
 class EnumStatusSchedule(Enum):
@@ -43,7 +42,7 @@ class DayScheduleDoctor(BaseModel):
     start_time: time
     end_time: time
     appointment: datetime
-    hours: List[Hours] = []
+    hours: list[Hours] = []
 
 
 class RegisterSchedule(BaseModel):

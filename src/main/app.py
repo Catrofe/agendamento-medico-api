@@ -21,6 +21,7 @@ def create_app() -> FastAPI:
         redoc_url=None,
         lifespan=lifespan,
         exception_handlers={BaseExceptionAppointment: BaseExceptionAppointment.handler},
+        swagger_ui_parameters={"displayRequestDuration": True},
     )
 
     logging.info("Creating routes...")
