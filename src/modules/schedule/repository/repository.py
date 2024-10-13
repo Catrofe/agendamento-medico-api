@@ -1,5 +1,5 @@
+from collections.abc import Sequence
 from datetime import datetime, time
-from typing import Sequence
 
 from sqlalchemy import select
 
@@ -30,12 +30,18 @@ class ScheduleRepository(BaseRepository):
             )
             return query.scalars().all()
 
-    async def get_future_schedules(self, doctor_id: int) -> Sequence[Schedule]:
+    async def get_future_schedules(
+        self,
+        doctor_id: int,
+        actual_date: datetime,
+        limit_date: datetime,
+    ) -> Sequence[Schedule]:
         async with self._connection() as session:
             query = await session.execute(
                 select(Schedule).where(
-                    (Schedule.doctor_id == doctor_id)
-                    & (Schedule.appointment >= datetime.now()),
+                    Schedule.doctor_id == doctor_id,
+                    Schedule.appointment >= actual_date,
+                    Schedule.appointment <= limit_date,
                 ),
             )
             return query.scalars().all()
@@ -47,7 +53,7 @@ class ScheduleRepository(BaseRepository):
             )
         return bool(query.scalars().first())
 
-    async def verify_schedule(self, doctor_id: int, appointment: datetime):
+    async def verify_schedule(self, doctor_id: int, appointment: datetime) -> bool:
         async with self._connection() as session:
             query = await session.execute(
                 select(Schedule).where(
@@ -57,7 +63,12 @@ class ScheduleRepository(BaseRepository):
             )
         return bool(query.scalars().first())
 
-    async def verify_doctor_available(self, doctor_id: int, day_of_week: int, start_time: time):
+    async def verify_doctor_available(
+        self,
+        doctor_id: int,
+        day_of_week: int,
+        start_time: time,
+    ) -> bool:
         async with self._connection() as session:
             query = await session.execute(
                 select(DoctorSchedule)
@@ -69,4 +80,3 @@ class ScheduleRepository(BaseRepository):
                 ),
             )
         return query.scalars().first() is not None
-

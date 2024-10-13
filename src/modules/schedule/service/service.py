@@ -1,8 +1,7 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from typing import TYPE_CHECKING
 
 from src.exceptions.BadRequestException import BadRequestException
-from src.main.settings import ZONE_INFO
 from src.modules.schedule.entity.schedule import Schedule
 from src.modules.schedule.models.models import (
     DayScheduleDoctor,
@@ -30,12 +29,19 @@ class ScheduleService:
         if not await self.__repository.doctor_exists(doctor_id):
             raise BadRequestException("Doctor not found")
 
+        actual_date = datetime.now()
+        limit_date = actual_date + timedelta(days=days)
+
         default_schedule: Sequence[
             DoctorSchedule
         ] = await self.__repository.get_default_schedule(doctor_id)
         future_schedules: Sequence[
             Schedule
-        ] = await self.__repository.get_future_schedules(doctor_id)
+        ] = await self.__repository.get_future_schedules(
+            doctor_id,
+            actual_date,
+            limit_date,
+        )
         return await GetDayScheduleDoctor(
             days,
             future_schedules,
@@ -66,7 +72,7 @@ class ScheduleService:
             raise BadRequestException("Doctor not found")
         if not await self.__repository.patient_exists(schedule_model.patient_id):
             raise BadRequestException("Patient not found")
-        if appointment < datetime.now(tz=ZONE_INFO):
+        if appointment < datetime.now():
             raise BadRequestException("Invalid appointment date")
         if await self.__repository.verify_schedule(
             schedule_model.doctor_id,
