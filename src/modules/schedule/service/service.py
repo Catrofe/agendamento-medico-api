@@ -3,11 +3,6 @@ from typing import TYPE_CHECKING
 
 from src.exceptions.BadRequestException import BadRequestException
 from src.main.settings import ZONE_INFO
-
-if TYPE_CHECKING:
-    from collections.abc import Sequence
-
-    from src.modules.doctor.entity.doctor_schedule import DoctorSchedule
 from src.modules.schedule.entity.schedule import Schedule
 from src.modules.schedule.models.models import (
     DayScheduleDoctor,
@@ -16,6 +11,11 @@ from src.modules.schedule.models.models import (
 )
 from src.modules.schedule.repository.repository import ScheduleRepository
 from src.modules.schedule.usecases.get_day_schedule_doctor import GetDayScheduleDoctor
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from src.modules.doctor.entity.doctor_schedule import DoctorSchedule
 
 
 class ScheduleService:
