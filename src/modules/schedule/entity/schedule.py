@@ -28,7 +28,7 @@ class Schedule(EntityTable):
         self.appointment = appointment
 
     def update(self, **kwargs: dict) -> None:
-        allowed_fields = {"doctor_id", "schedule_date"}
+        allowed_fields = {"doctor_id", "appointment"}
         for key, value in kwargs.items():
             if key in allowed_fields:
                 setattr(self, key, value)
