@@ -40,7 +40,7 @@ target-version = "py311"
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
 select = ["ALL"]
-ignore = ["D", "INP001", "EM101", "TRY003", "N818", "DTZ005"]
+ignore = ["D", "INP001", "EM101", "TRY003", "N818", "DTZ005", "FBT001"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
