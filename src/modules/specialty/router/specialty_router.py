@@ -29,6 +29,6 @@ async def update_visibility_specialty(specialty_id: int) -> SpecialtyModel:
     return await service.update_visibility_specialty(specialty_id)
 
 
-@router.delete("/specialty/{specialty_id}")
+@router.delete("/specialty/{specialty_id}", status_code=204)
 async def delete_specialty(specialty_id: int) -> None:
     return await service.delete_specialty(specialty_id)
