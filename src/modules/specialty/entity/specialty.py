@@ -27,7 +27,6 @@ class Specialty(EntityTable):
         self.name = name
         self.description = description
 
-    def set_name(self, name: str) -> None:
         self.name = name
 
     def change_visibility(self) -> None:
