@@ -13,7 +13,7 @@ class Specialty(EntityTable):
         nullable=False,
     )
     description: Mapped[str] = mapped_column(
-        __type_pos=String(155),
+        __type_pos=String(500),
         nullable=False,
     )
     is_visible: Mapped[bool] = mapped_column(
@@ -30,5 +30,5 @@ class Specialty(EntityTable):
     def set_name(self, name: str) -> None:
         self.name = name
 
-    def set_is_visible(self) -> None:
+    def change_visibility(self) -> None:
         self.is_visible = not self.is_visible

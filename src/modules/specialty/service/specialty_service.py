@@ -40,14 +40,14 @@ class SpecialtyService:
 
     async def update_visibility_specialty(self, specialty_id: int) -> SpecialtyModel:
         logging.info("Updating visibility specialty")
-        specialty = await self._repository.get_entity_by_id(specialty_id)
+
+        specialty = await self._repository.update_visibility_specialty_with_lock(
+            specialty_id,
+        )
 
         if not specialty:
             logging.info("Specialty not found")
             raise NotFoundException("Specialty not found")
-
-        specialty.set_is_visible()
-        specialty = await self._repository.save_entity(specialty)
 
         return SpecialtyModel(**specialty.__dict__)
 

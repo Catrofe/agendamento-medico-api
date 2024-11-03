@@ -29,3 +29,22 @@ class SpecialtyRepository(BaseRepository):
         async with self._connection() as session:
             query = await session.execute(select(Specialty))
         return query.scalars().all()
+
+    async def update_visibility_specialty_with_lock(
+        self,
+        specialty_id: int,
+    ) -> Specialty | None:
+        async with self._connection() as session:
+            query = await session.execute(
+                select(Specialty).where(Specialty.id == specialty_id).with_for_update(),
+            )
+            specialty = query.scalar_one_or_none()
+
+            if not specialty:
+                return None
+
+            specialty.change_visibility()
+            session.add(specialty)
+            await session.commit()
+            await session.refresh(specialty)
+        return specialty
